@@ -2,97 +2,109 @@
 
 An advanced document-based AI chatbot API that integrates **AWS Kendra** for enterprise search and **OpenAI's ChatGPT** for consensus generation and natural language synthesis. Built with **FastAPI** for high performance and scalability.
 
-## 🚀 Features
+![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.128.0-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-Kendra-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-ChatGPT-412991?style=for-the-badge&logo=openai&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
 
-*   **Hybrid Intelligence**: Combines AWS Kendra's document search with ChatGPT's reasoning.
-*   **FastAPI Framework**: High-performance, easy-to-use API with automatic interactive documentation.
-*   **Robust Logging**: Centralized daily CSV logging for auditing and debugging.
-*   **Rate Limiting**: Built-in protection against abuse (default: 10 requests/minute per IP).
-*   **Enterprise Ready**: Singleton service patterns, comprehensive configuration management, and type safety.
-*   **Open Source**: MIT Licensed.
+## 📋 Features
+
+- **Hybrid Intelligence** - Combines AWS Kendra's document search with ChatGPT's reasoning.
+- **Consensus Generation** - Aggregates multiple source documents into a single coherent answer.
+- **FastAPI Framework** - High-performance API with automatic interactive documentation (Swagger).
+- **Robust Logging** - Centralized daily CSV logging for auditing and debugging.
+- **Rate Limiting** - Built-in protection against abuse (default: 10 requests/minute per IP).
+- **Enterprise Ready** - Singleton service patterns and comprehensive configuration management.
 
 ## 🛠️ Architecture
 
-*   **`src/api.py`**: FastAPI application entry point.
-*   **`src/main.py`**: Core orchestration logic connecting Kendra and OpenAI's ChatGPT.
-*   **`src/services/`**: Integration modules for AWS Kendra (`aws_kendra.py`) and OpenAI's ChatGPT (`openai.py`).
-*   **`src/configs/`**: Configuration management using `.env` files.
-*   **`tests/`**: Unit tests for logic and endpoints.
+1. **AWS Kendra Search**
+   - Deep search across enterprise document repositories.
+   - Confidence-weighted result extraction.
 
-## 📋 Prerequisites
+2. **OpenAI Synthesis**
+   - Intelligent consensus building from multiple text snippets.
+   - Natural language generation for user-friendly responses.
 
-*   Python 3.9+
-*   AWS Account (with Kendra Index set up)
-*   OpenAI API Key
+## 📁 Project Structure
 
-## ⚙️ Installation
-
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/yourusername/AIChatbot.git
-    cd DocuChatAI
-    ```
-
-2.  **Create a virtual environment**:
-    ```bash
-    py -m venv .venv
-    .venv\Scripts\activate  # Windows
-    # source .venv/bin/activate  # Linux/Mac
-    ```
-
-3.  **Install dependencies**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Configure Environment**:
-    Copy `.env.example` to `.env` and fill in your credentials.
-    ```bash
-    cp .env.example .env
-    ```
-    
-    Update the following variables in `.env`:
-    *   `AWS_ACCESS_KEY_ID` & `AWS_SECRET_ACCESS_KEY`
-    *   `AWS_KENDRA_INDEX_ID`
-    *   `OPENAI_API_KEY`
-
-## ▶️ Usage
-
-Start the server using Uvicorn:
-
-```bash
-uvicorn src.api:app --reload
+```
+DocuChatAI/
+├── src/
+│   ├── api.py           # FastAPI application entry point
+│   ├── main.py          # Core orchestration logic
+│   ├── services/        # AWS and OpenAI integration modules
+│   ├── models/          # Pydantic models for request/response
+│   ├── configs/         # Environment configuration
+│   └── utils/           # Shared utilities (logging, etc.)
+├── tests/               # Unit and integration tests
+├── .env.example         # Template for environment variables
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
 ```
 
-The API will be available at `http://127.0.0.1:8000`.
+## 🚀 Getting Started
 
-### API Documentation
-Visit `http://127.0.0.1:8000/docs` for the interactive Swagger UI.
+### Prerequisites
 
-### Example Request
+- Python 3.9+
+- AWS Account (with Kendra Index set up)
+- OpenAI API Key
 
-**POST** `/chatbot`
+### Installation & Usage
 
-```json
-{
-  "query": "What are the safety protocols?"
-}
-```
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mubbashir-ahmed/DocuChatAI.git
+   cd DocuChatAI
+   ```
 
-## 🧪 Testing
+2. **Configure Environment**
+   - Copy `.env.example` to `.env` and fill in your credentials:
+   ```bash
+   cp .env.example .env
+   ```
 
-Run unit tests using `pytest`:
+3. **Install Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-pytest tests/
-```
+4. **Run the API**
+   ```bash
+   uvicorn src.api:app --reload
+   ```
+   The API will be available at `http://127.0.0.1:8000`.
 
-## 🤝 Contributing
+## 🛠️ Technologies Used
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- **Python / FastAPI** - Core application framework
+- **AWS Kendra** - Enterprise search and document retrieval
+- **OpenAI API** - Consensus generation and synthesis
+- **Boto3** - AWS SDK for Python
+- **SlowAPI** - Rate limiting for FastAPI
+- **Pandas** - Efficient CSV logging management
 
-## 📄 License
+## 📸 Preview
+
+### API Documentation (Swagger UI)
+Visit `http://127.0.0.1:8000/docs` to interact with the API directly.
+
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Copyright (c) 2026 Mubbashir Ahmed
+## 👤 Author
+
+**Mubbashir Ahmed**
+
+- GitHub: [@mubbashir-ahmed](https://github.com/mubbashir-ahmed)
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page or submit a pull request. Please [read the contributing guidelines](CONTRIBUTING.md).
+
+## ⭐ Show Your Support
+
+⭐ If you find this project helpful, please consider giving it a star!
