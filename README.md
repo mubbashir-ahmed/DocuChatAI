@@ -97,11 +97,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👤 Contributors
 
-- **Mubbashir Ahmed** (Author & Maintainer)
-  GitHub: [@mubbashir-ahmed](https://github.com/mubbashir-ahmed)
+- **Mubbashir Ahmed** (Author & Maintainer) [@mubbashir-ahmed](https://github.com/mubbashir-ahmed)
 
-- **Mohammed2372**
-  Github: [@Mohammed2372](https://github.com/Mohammed2372)
+- **Mohammed2372** [@Mohammed2372](https://github.com/Mohammed2372)
 
 ## 🤝 Contributing
 
