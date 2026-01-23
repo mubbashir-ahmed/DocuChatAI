@@ -8,6 +8,7 @@ from src.main import get_response_from_bot
 from src.models.chatbot_request import ChatbotRequest
 from src.models.chatbot_response import ChatbotResponse
 from src.utils.logger import csv_logger
+from src.configs.settings import settings
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="DocuChatAI API")
@@ -42,7 +43,7 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     )
 
 @app.post("/chatbot", response_model=ChatbotResponse)
-@limiter.limit("10/minute")
+@limiter.limit(settings.get_api_rate_limit())
 def chatbot_endpoint(request: Request, chatbot_data: ChatbotRequest):
     """
     Process a chatbot query and return the response.
