@@ -95,11 +95,13 @@ Visit `http://127.0.0.1:8000/docs` to interact with the API directly.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👤 Author
+## 👤 Contributors
 
-**Mubbashir Ahmed**
+- **Mubbashir Ahmed** (Author & Maintainer)
+  GitHub: [@mubbashir-ahmed](https://github.com/mubbashir-ahmed)
 
-- GitHub: [@mubbashir-ahmed](https://github.com/mubbashir-ahmed)
+- **Mohammed2372**
+  Github: [@Mohammed2372](https://github.com/Mohammed2372)
 
 ## 🤝 Contributing
 
