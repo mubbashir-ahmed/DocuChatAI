@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import threading
 from datetime import datetime
 from typing import Optional
 from src.configs.settings import settings
@@ -16,6 +17,8 @@ class CsvLogger:
         self.log_dir = settings.get_log_dir()
         if not os.path.exists(self.log_dir):
             os.makedirs(self.log_dir)
+        # Initialize a lock for thread-safe logging
+        self.lock = threading.Lock()
 
     def _get_log_filename(self, timestamp: datetime) -> str:
         """
@@ -56,14 +59,16 @@ class CsvLogger:
         
         file_path = self._get_log_filename(now)
         
-        # Check if file exists to determine if header is needed
-        header = not os.path.exists(file_path)
+        # Critical section for thread-safe file writing
+        with self.lock:
+            # Check if file exists to determine if header is needed
+            header = not os.path.exists(file_path)
         
-        try:
-            # Append to CSV
-            df.to_csv(file_path, mode='a', header=header, index=False)
-        except Exception as e:
-            print(f"Failed to write log to CSV: {e}")
+            try:
+                # Append to CSV
+                df.to_csv(file_path, mode='a', header=header, index=False)
+            except Exception as e:
+                print(f"Failed to write log to CSV: {e}")
 
 # Global instance
 csv_logger = CsvLogger()
