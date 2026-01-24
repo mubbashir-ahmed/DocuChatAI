@@ -60,24 +60,16 @@ def test_get_answers_from_query_results_mixed():
     
     result_items = [item1, item2]
     
-    # We need to mock random.randint for deterministic testing of confidence
-    # But since it logic uses ranges, checking range is enough or mocking random
-    with patch('random.randint') as mock_rand:
-        mock_rand.side_effect = [10, 4] # 10 for VERY HIGH, 4 for MEDIUM
-        
-        answers = kendra.get_answers_from_query_results(result_items)
-        
-        assert len(answers) == 2
-        
-        # Check Answer 1
-        # [text, url, score]
-        assert answers[0][0] == "This is answer 1."
-        assert answers[0][1] == "http://doc1"
-        assert answers[0][2] == 10
-        
-        # Check Answer 2
-        # Text splitting logic: "This. Is. Doc 2." joined by space
-        # Original code joins with " ", and strips.
-        assert "This" in answers[1][0]
-        assert answers[1][1] == "http://doc2"
-        assert answers[1][2] == 4
+    answers = kendra.get_answers_from_query_results(result_items)
+
+    assert len(answers) == 2
+
+    # Check Answer 1 (VERY_HIGH should be 10)
+    assert answers[0][0] == "This is answer 1."
+    assert answers[0][1] == "http://doc1"
+    assert answers[0][2] == 10  # Deterministic check
+
+    # Check Answer 2 (MEDIUM should be 5)
+    assert "This" in answers[1][0]
+    assert answers[1][1] == "http://doc2"
+    assert answers[1][2] == 5  # Deterministic check
