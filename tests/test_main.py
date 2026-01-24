@@ -36,10 +36,10 @@ def test_get_response_from_bot_success(mock_openai, mock_aws_kendra):
     
     # Assertions
     assert response is not None
-    assert response.queryId == query_id
-    assert response.answer == "Final Answer"
-    assert response.score == 18
-    assert response.urls == ["http://url1.com", "http://url2.com"]
+    assert response[0].queryId == query_id
+    assert response[0].answer == "Final Answer"
+    assert response[0].score == 18
+    assert response[0].urls == ["http://url1.com", "http://url2.com"]
 
 @patch('src.main.AWSKendra')
 @patch('src.main.OpenAI')
@@ -60,4 +60,4 @@ def test_get_response_from_bot_no_consensus(mock_openai, mock_aws_kendra):
     response = get_response_from_bot("query")
     
     # Assertions
-    assert response is None
+    assert response == []

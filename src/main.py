@@ -1,11 +1,11 @@
-from typing import List, Optional
+from typing import List
 from src.services.aws_kendra import AWSKendra
 from src.services.openai import OpenAI
 from src.utils.logger import csv_logger
 from src.models.chatbot_response import ChatbotResponse
 from src.configs.settings import settings
 
-def get_response_from_bot(query: str) -> Optional[ChatbotResponse]:
+def get_response_from_bot(query: str) -> List[ChatbotResponse]:
     """
     Orchestrates the chatbot response generation process.
 
@@ -34,16 +34,18 @@ def get_response_from_bot(query: str) -> Optional[ChatbotResponse]:
             
     res = OpenAI.get_instance().get_consensus(statements, weights, query)
     
-    result: Optional[ChatbotResponse] = None
+    results: List[ChatbotResponse] = []
+    
     for key, value in res.items():
-        result = ChatbotResponse(
+        response = ChatbotResponse(
             queryId=str(query_id),
             answer=key,
             score=value,
             urls=urls[:settings.get_max_urls_to_process()]
         )
+        results.append(response)
 
-    if not result:
+    if not results:
         csv_logger.log("WARNING", f"No consensus answer found for query: {query}")
 
-    return result
+    return results
