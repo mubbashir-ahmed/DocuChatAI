@@ -3,6 +3,7 @@ from src.services.aws_kendra import AWSKendra
 from src.services.openai import OpenAI
 from src.utils.logger import csv_logger
 from src.models.chatbot_response import ChatbotResponse
+from src.configs.settings import settings
 
 def get_response_from_bot(query: str) -> Optional[ChatbotResponse]:
     """
@@ -39,7 +40,7 @@ def get_response_from_bot(query: str) -> Optional[ChatbotResponse]:
             queryId=str(query_id),
             answer=key,
             score=value,
-            urls=urls[:3]
+            urls=urls[:settings.get_max_urls_to_process()]
         )
 
     if not result:

@@ -12,6 +12,9 @@ class AWSKendra:
     __instance = None
     _client = None
     
+    # Const
+    MAX_CONFIDENCE = 100
+    
     @staticmethod 
     def get_instance() -> 'AWSKendra':
         """ Static access method. """
@@ -160,6 +163,6 @@ class AWSKendra:
         elif confidence == 'LOW':
             r = 1
         
-        if r >= 100:
-            r = 100
+        if r >= self.MAX_CONFIDENCE:
+            r = self.MAX_CONFIDENCE
         return r

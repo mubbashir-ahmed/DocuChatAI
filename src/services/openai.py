@@ -13,6 +13,9 @@ class OpenAI:
 
     __instance = None
     _client: Optional[OpenAIClient] = None
+    
+    # Const
+    CONSENSUS_TEMPERATURE = 0.0
 
     @staticmethod
     def get_instance() -> "OpenAI":
@@ -52,7 +55,7 @@ class OpenAI:
         try:
             client = self.get_openai_client()
             response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=settings.get_open_ai_model(),
                 messages=[
                     {
                         "role": "system",
@@ -61,8 +64,7 @@ class OpenAI:
                     {"role": "user", "content": query},
                 ],
                 temperature=temp,
-                max_tokens=1000,
-                **kwargs,
+                max_tokens=settings.get_max_tokens(),
             )
             message = response.choices[0].message.content
             return message.strip() if message else None
@@ -118,7 +120,7 @@ class OpenAI:
         """
 
         result = self.get_chatgpt_response(
-            ensemble_prompt, 0, response_format={"type": "json_object"}
+            ensemble_prompt, self.CONSENSUS_TEMPERATURE, response_format={"type": "json_object"}
         )
         container = {}
         if not result:
