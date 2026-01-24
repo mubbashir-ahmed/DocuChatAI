@@ -41,6 +41,33 @@ def test_get_response_from_bot_success(mock_openai, mock_aws_kendra):
     assert response[0].score == 18
     assert response[0].urls == ["http://url1.com", "http://url2.com"]
 
+
+@patch('src.main.AWSKendra')
+@patch('src.main.OpenAI')
+def test_get_response_from_bot_multiple_results(mock_openai, mock_aws_kendra) -> None:
+    """New test to verify that multiple consensus answers are returned correctly."""
+    
+    mock_kendra_instance = MagicMock()
+    mock_aws_kendra.get_instance.return_value = mock_kendra_instance
+    mock_kendra_instance.get_kendra_query_results.return_value = ("qid", [])
+    mock_kendra_instance.get_answers_from_query_results.return_value = []
+    
+    mock_openai_instance = MagicMock()
+    mock_openai.get_instance.return_value = mock_openai_instance
+
+    # Mock two consensus results
+    consensus_result = {"Answer A": 10, "Answer B": 5}
+    
+    mock_openai_instance.get_consensus.return_value = consensus_result
+
+    response = get_response_from_bot("query")
+
+    assert isinstance(response, list)
+    assert len(response) == 2
+    assert response[0].answer == "Answer A"
+    assert response[1].answer == "Answer B"
+
+
 @patch('src.main.AWSKendra')
 @patch('src.main.OpenAI')
 def test_get_response_from_bot_no_consensus(mock_openai, mock_aws_kendra):
