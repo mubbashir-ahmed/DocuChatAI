@@ -155,13 +155,13 @@ class AWSKendra:
         """
         r = 0
         if confidence == 'VERY HIGH':
-            r = random.randint(8, 10)
+            r = 10
         elif confidence == 'HIGH':
-            r = random.randint(6, 8)
+            r = 8
         elif confidence == 'MEDIUM':
-            r = random.randint(3, 5)
+            r = 5
         elif confidence == 'LOW':
-            r = random.randint(0, 2)
+            r = 1
         
         if r >= self.MAX_CONFIDENCE:
             r = self.MAX_CONFIDENCE

@@ -1,3 +1,4 @@
+import json
 import pytest
 from unittest.mock import MagicMock, patch
 from src.services.openai import OpenAI
@@ -21,7 +22,9 @@ def test_get_chatgpt_response_success(mock_openai_client_class):
     mock_client.chat.completions.create.return_value = mock_response
     
     openai_service = OpenAI.get_instance()
-    response = openai_service.get_chatgpt_response("prompt", 0.5)
+    response = openai_service.get_chatgpt_response(
+        "prompt", 0.5, response_format={"type": "json_object"}
+    )
     
     assert response == "Generated response"
     mock_client.chat.completions.create.assert_called_once()
@@ -36,11 +39,15 @@ def test_get_consensus_list_logic(mock_get_response):
     # "1 | ['Item A']"
     # Weights: [10, 5]
     
-    mock_output = """The answers are items
-0 | ['Item A', 'Item B']
-1 | ['Item A']
-"""
-    mock_get_response.return_value = mock_output
+    mock_data = {
+        'type': 'items',
+        'data': [
+            {'id': 0, 'items': ['Item A', 'Item B']},
+            {'id': 1, 'items': ['Item A']},
+        ],
+    }
+    
+    mock_get_response.return_value = json.dumps(mock_data)
     
     statements = ["s1", "s2"]
     weights = [10, 5]
@@ -62,10 +69,12 @@ def test_get_consensus_statement_logic(mock_get_response):
     # "The answer is a statement"
     # "Unified statement text"
     
-    mock_output = """The answer is a statement
-This is the unified answer.
-"""
-    mock_get_response.return_value = mock_output
+    mock_data ={
+        'type': 'statement',
+        'text': 'This is the unified answer.',
+    }
+    
+    mock_get_response.return_value = json.dumps(mock_data)
     
     statements = ["s1", "s2"]
     weights = [10, 5]
