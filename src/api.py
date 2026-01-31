@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -42,7 +43,7 @@ async def http_exception_handler(request: Request, exc: HTTPException):
         content={"detail": exc.detail},
     )
 
-@app.post("/chatbot", response_model=ChatbotResponse)
+@app.post("/chatbot", response_model=List[ChatbotResponse])
 @limiter.limit(settings.get_api_rate_limit())
 def chatbot_endpoint(request: Request, chatbot_data: ChatbotRequest):
     """
